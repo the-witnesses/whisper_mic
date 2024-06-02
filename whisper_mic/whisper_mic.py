@@ -172,7 +172,6 @@ class WhisperMic:
             # faster_whisper returns an iterable object rather than a string
             if self.faster:
                 segments, info = self.audio_model.transcribe(audio_data)
-                print(info)
                 for segment in segments:
                     predicted_text += segment.text
                 
