@@ -171,6 +171,7 @@ class WhisperMic:
             # faster_whisper returns an iterable object rather than a string
             if self.faster:
                 segments, info = self.audio_model.transcribe(audio_data)
+                print(info)
                 for segment in segments:
                     predicted_text += segment.text
             else:
@@ -219,7 +220,8 @@ class WhisperMic:
             
     def listen(self, timeout = None, phrase_time_limit=None):
         self.logger.info("Listening...")
-        self.__listen_handler(timeout, phrase_time_limit)
+        while self.result_queue.empty():
+            self.__listen_handler(timeout, phrase_time_limit)
         while True:
             if not self.result_queue.empty():
                 return self.result_queue.get()
