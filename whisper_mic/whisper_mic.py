@@ -170,8 +170,8 @@ class WhisperMic:
             predicted_text = ''
             # faster_whisper returns an iterable object rather than a string
             if self.faster:
-                segments, info = self.audio_model.transcribe(audio_data)
-                print(info)
+                segments, result = self.audio_model.transcribe(audio_data)
+                print(result)
                 for segment in segments:
                     predicted_text += segment.text
             else:
@@ -181,12 +181,8 @@ class WhisperMic:
                     result = self.audio_model.transcribe(audio_data,suppress_tokens="")
                 predicted_text = result["text"]
 
-            if not self.verbose:
-                if predicted_text not in self.banned_results:
-                    self.result_queue.put_nowait(predicted_text)
-            else:
-                if predicted_text not in self.banned_results:
-                    self.result_queue.put_nowait(result)
+            if predicted_text not in self.banned_results:
+                self.result_queue.put_nowait(result)
 
 
             if self.save_file:
