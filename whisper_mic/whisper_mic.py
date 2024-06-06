@@ -95,7 +95,7 @@ class WhisperMic:
         self.logger.info("Mic setup complete")
 
     def close(self):
-        self.source.__exit__()
+        self.source.__exit__(None, None, None)
 
     # Whisper takes a Tensor while faster_whisper only wants an NDArray
     def __preprocess(self, data):
