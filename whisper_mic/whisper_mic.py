@@ -52,7 +52,7 @@ class WhisperMic:
         if (implementation == "faster_whisper"):
             try:
                 from faster_whisper import WhisperModel
-                self.audio_model = WhisperModel(model, download_root=model_root, device="auto", compute_type="float16")           
+                self.audio_model = WhisperModel(model, download_root=model_root, device="auto", compute_type="int8")            
                 self.faster = True    # Only set the flag if we succesfully imported the library and opened the model.
             except ImportError:
                 self.logger.error("faster_whisper not installed, falling back to whisper")
