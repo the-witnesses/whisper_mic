@@ -49,7 +49,15 @@ class WhisperMic:
         model_root = os.path.expanduser(model_root)
 
         self.faster = False
-        if (implementation == "faster_whisper"):
+        if (implementation == "whisper_cpp"):
+            try:
+                from pywhispercpp.model import Model
+                self.audio_model = Model(model_root + model + '.bin', n_threads=6)
+                print(Model.system_info())  # and you should see COREML = 1
+            except ImportError:
+                self.logger.error("whisper_cpp not installed")
+
+        elif (implementation == "faster_whisper"):
             try:
                 from faster_whisper import WhisperModel
                 self.audio_model = WhisperModel(model, download_root=model_root, device="auto", compute_type="int8")            
